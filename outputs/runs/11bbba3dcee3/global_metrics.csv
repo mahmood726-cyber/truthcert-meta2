@@ -1,0 +1,2 @@
+coverage_arb,coverage_delta,regret_arb,regret_classic,regret_delta,n_topics,n_replications
+1.0,1.0,0.21472222222222218,0.4284722222222223,0.10583333333333332,12,50

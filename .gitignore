@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.Rhistory
+.RData
+*.docx
+output/
+.DS_Store
+.pytest_cache/

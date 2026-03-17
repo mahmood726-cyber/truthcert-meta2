@@ -1,0 +1,272 @@
+{
+  "schema_version": "1.0",
+  "seed_master": 42,
+  "n_replications": 50,
+  "suite_outputs": {"base_dir": "outputs/runs"},
+  "topics": [
+    {
+      "topic_id": "T01",
+      "label": "Clean Control",
+      "node_grid": {"phenotypes": ["P1","P2"], "classes": ["C1","C2"], "endpoints": ["E1","E2","E3"]},
+      "trial_count": {"n_trials_total": 60, "min_trials_per_node": 2, "dispersion": 1.0},
+      "sponsor": {"industry_rate": 0.5},
+      "truth": {"mu_global": -0.15, "node_effect_structure": "smooth", "mu_node_sd": 0.10, "tau_base": 0.08, "tau_sd": 0.02, "discontinuity": {"enabled": false}},
+      "baseline_risk": {"control_event_rate": {"E1": [0.05, 0.15], "E2": [0.10, 0.30], "E3": [0.02, 0.10]}},
+      "sample_size": {"n_per_arm": [80, 400], "size_distribution": "lognormal", "size_sigma": 0.6},
+      "missingness": {
+        "results_posting": {"base_rate": 0.85, "coef": {"industry": 0.1, "signif_benefit": 0.1, "signif_harm": -0.05, "se": -0.05, "post2015": 0.2}},
+        "publication": {"base_rate": 0.80, "coef": {"industry": 0.1, "signif_benefit": 0.15, "signif_harm": 0.05, "se": -0.1, "post2015": 0.1, "results_posted": 0.2}},
+        "endpoint_reporting": {"enabled": false, "base_rate_by_endpoint": {"E1": 0.95, "E2": 0.95, "E3": 0.95}, "coef": {"industry": 0.0, "signif_benefit": 0.0, "se": 0.0}},
+        "silent_shift_delta": {"enabled": true, "delta_by_endpoint": {"E1": {"industry": 0.01, "nonindustry": 0.005}, "E2": {"industry": 0.01, "nonindustry": 0.005}, "E3": {"industry": 0.01, "nonindustry": 0.005}}, "constraint": "industry_ge_nonindustry", "multiplier_by_endpoint": {"E1": 1.0, "E2": 1.0, "E3": 1.0}}
+      },
+      "engine": {
+        "delta_bayes": {"grid": {"di_max": 0.5, "dn_max": 0.3, "step": 0.02}, "prior": {"type": "half_normal", "sigma_industry": 0.2, "sigma_nonindustry": 0.15}, "temperature_T": 1.0, "grouping": "class"},
+        "propagation": {"n_posterior_samples": 2000, "include_mu_obs_uncertainty": true},
+        "decision_rule": {"benefit_threshold": 1.0, "recommend": {"p_benefit": 0.80, "upper": 1.0, "silent_rate_max": 0.50}, "consider": {"p_benefit": 0.60, "p_harm": 0.20, "silent_rate_max": 0.70}, "research": {"silent_rate_min": 0.40}},
+        "ablation_modes": ["denom_only", "delta_only"]
+      }
+    },
+    {
+      "topic_id": "T02",
+      "label": "Moderate Publication Bias",
+      "node_grid": {"phenotypes": ["P1","P2"], "classes": ["C1","C2"], "endpoints": ["E1","E2","E3"]},
+      "trial_count": {"n_trials_total": 60, "min_trials_per_node": 2, "dispersion": 1.0},
+      "sponsor": {"industry_rate": 0.6},
+      "truth": {"mu_global": -0.10, "node_effect_structure": "smooth", "mu_node_sd": 0.12, "tau_base": 0.10, "tau_sd": 0.03, "discontinuity": {"enabled": false}},
+      "baseline_risk": {"control_event_rate": {"E1": [0.05, 0.15], "E2": [0.10, 0.30], "E3": [0.02, 0.10]}},
+      "sample_size": {"n_per_arm": [50, 500], "size_distribution": "lognormal", "size_sigma": 0.8},
+      "missingness": {
+        "results_posting": {"base_rate": 0.65, "coef": {"industry": 0.2, "signif_benefit": 0.4, "signif_harm": -0.2, "se": -0.15, "post2015": 0.3}},
+        "publication": {"base_rate": 0.55, "coef": {"industry": 0.15, "signif_benefit": 0.6, "signif_harm": 0.2, "se": -0.3, "post2015": 0.1, "results_posted": 0.3}},
+        "endpoint_reporting": {"enabled": false, "base_rate_by_endpoint": {"E1": 0.90, "E2": 0.90, "E3": 0.90}, "coef": {"industry": 0.0, "signif_benefit": 0.0, "se": 0.0}},
+        "silent_shift_delta": {"enabled": true, "delta_by_endpoint": {"E1": {"industry": 0.04, "nonindustry": 0.02}, "E2": {"industry": 0.04, "nonindustry": 0.02}, "E3": {"industry": 0.03, "nonindustry": 0.015}}, "constraint": "industry_ge_nonindustry", "multiplier_by_endpoint": {"E1": 1.0, "E2": 1.0, "E3": 1.0}}
+      },
+      "engine": {
+        "delta_bayes": {"grid": {"di_max": 0.5, "dn_max": 0.3, "step": 0.02}, "prior": {"type": "half_normal", "sigma_industry": 0.2, "sigma_nonindustry": 0.15}, "temperature_T": 1.0, "grouping": "class"},
+        "propagation": {"n_posterior_samples": 2000, "include_mu_obs_uncertainty": true},
+        "decision_rule": {"benefit_threshold": 1.0, "recommend": {"p_benefit": 0.80, "upper": 1.0, "silent_rate_max": 0.50}, "consider": {"p_benefit": 0.60, "p_harm": 0.20, "silent_rate_max": 0.70}, "research": {"silent_rate_min": 0.40}},
+        "ablation_modes": ["denom_only", "delta_only"]
+      }
+    },
+    {
+      "topic_id": "T03",
+      "label": "High Publication Bias",
+      "node_grid": {"phenotypes": ["P1","P2"], "classes": ["C1","C2"], "endpoints": ["E1","E2","E3"]},
+      "trial_count": {"n_trials_total": 72, "min_trials_per_node": 2, "dispersion": 1.5},
+      "sponsor": {"industry_rate": 0.7},
+      "truth": {"mu_global": -0.12, "node_effect_structure": "smooth", "mu_node_sd": 0.15, "tau_base": 0.12, "tau_sd": 0.04, "discontinuity": {"enabled": false}},
+      "baseline_risk": {"control_event_rate": {"E1": [0.05, 0.15], "E2": [0.10, 0.30], "E3": [0.02, 0.10]}},
+      "sample_size": {"n_per_arm": [50, 500], "size_distribution": "lognormal", "size_sigma": 0.8},
+      "missingness": {
+        "results_posting": {"base_rate": 0.50, "coef": {"industry": 0.3, "signif_benefit": 0.8, "signif_harm": -0.4, "se": -0.3, "post2015": 0.3}},
+        "publication": {"base_rate": 0.35, "coef": {"industry": 0.2, "signif_benefit": 1.2, "signif_harm": 0.3, "se": -0.5, "post2015": 0.1, "results_posted": 0.4}},
+        "endpoint_reporting": {"enabled": false, "base_rate_by_endpoint": {"E1": 0.85, "E2": 0.85, "E3": 0.85}, "coef": {"industry": 0.0, "signif_benefit": 0.0, "se": 0.0}},
+        "silent_shift_delta": {"enabled": true, "delta_by_endpoint": {"E1": {"industry": 0.06, "nonindustry": 0.03}, "E2": {"industry": 0.06, "nonindustry": 0.03}, "E3": {"industry": 0.05, "nonindustry": 0.025}}, "constraint": "industry_ge_nonindustry", "multiplier_by_endpoint": {"E1": 1.0, "E2": 1.0, "E3": 1.0}}
+      },
+      "engine": {
+        "delta_bayes": {"grid": {"di_max": 0.5, "dn_max": 0.3, "step": 0.02}, "prior": {"type": "half_normal", "sigma_industry": 0.2, "sigma_nonindustry": 0.15}, "temperature_T": 1.0, "grouping": "class"},
+        "propagation": {"n_posterior_samples": 2000, "include_mu_obs_uncertainty": true},
+        "decision_rule": {"benefit_threshold": 1.0, "recommend": {"p_benefit": 0.80, "upper": 1.0, "silent_rate_max": 0.50}, "consider": {"p_benefit": 0.60, "p_harm": 0.20, "silent_rate_max": 0.70}, "research": {"silent_rate_min": 0.40}},
+        "ablation_modes": ["denom_only", "delta_only"]
+      }
+    },
+    {
+      "topic_id": "T04",
+      "label": "Endpoint-Selective Reporting",
+      "node_grid": {"phenotypes": ["P1","P2"], "classes": ["C1","C2"], "endpoints": ["E1","E2","E3"]},
+      "trial_count": {"n_trials_total": 60, "min_trials_per_node": 2, "dispersion": 1.0},
+      "sponsor": {"industry_rate": 0.6},
+      "truth": {"mu_global": -0.08, "node_effect_structure": "smooth", "mu_node_sd": 0.10, "tau_base": 0.10, "tau_sd": 0.03, "discontinuity": {"enabled": false}},
+      "baseline_risk": {"control_event_rate": {"E1": [0.05, 0.15], "E2": [0.10, 0.30], "E3": [0.02, 0.10]}},
+      "sample_size": {"n_per_arm": [50, 500], "size_distribution": "lognormal", "size_sigma": 0.8},
+      "missingness": {
+        "results_posting": {"base_rate": 0.70, "coef": {"industry": 0.2, "signif_benefit": 0.3, "signif_harm": -0.15, "se": -0.1, "post2015": 0.25}},
+        "publication": {"base_rate": 0.55, "coef": {"industry": 0.15, "signif_benefit": 0.5, "signif_harm": 0.15, "se": -0.25, "post2015": 0.1, "results_posted": 0.3}},
+        "endpoint_reporting": {"enabled": true, "base_rate_by_endpoint": {"E1": 0.60, "E2": 0.55, "E3": 0.50}, "coef": {"industry": 0.15, "signif_benefit": 0.5, "se": -0.2}},
+        "silent_shift_delta": {"enabled": true, "delta_by_endpoint": {"E1": {"industry": 0.04, "nonindustry": 0.02}, "E2": {"industry": 0.05, "nonindustry": 0.025}, "E3": {"industry": 0.06, "nonindustry": 0.03}}, "constraint": "industry_ge_nonindustry", "multiplier_by_endpoint": {"E1": 1.0, "E2": 1.2, "E3": 1.5}}
+      },
+      "engine": {
+        "delta_bayes": {"grid": {"di_max": 0.5, "dn_max": 0.3, "step": 0.02}, "prior": {"type": "half_normal", "sigma_industry": 0.2, "sigma_nonindustry": 0.15}, "temperature_T": 1.0, "grouping": "class"},
+        "propagation": {"n_posterior_samples": 2000, "include_mu_obs_uncertainty": true},
+        "decision_rule": {"benefit_threshold": 1.0, "recommend": {"p_benefit": 0.80, "upper": 1.0, "silent_rate_max": 0.50}, "consider": {"p_benefit": 0.60, "p_harm": 0.20, "silent_rate_max": 0.70}, "research": {"silent_rate_min": 0.40}},
+        "ablation_modes": ["denom_only", "delta_only"]
+      }
+    },
+    {
+      "topic_id": "T05",
+      "label": "Industry-Dominated",
+      "node_grid": {"phenotypes": ["P1","P2"], "classes": ["C1","C2"], "endpoints": ["E1","E2","E3"]},
+      "trial_count": {"n_trials_total": 60, "min_trials_per_node": 2, "dispersion": 0.8},
+      "sponsor": {"industry_rate": 0.90},
+      "truth": {"mu_global": -0.10, "node_effect_structure": "smooth", "mu_node_sd": 0.12, "tau_base": 0.10, "tau_sd": 0.03, "discontinuity": {"enabled": false}},
+      "baseline_risk": {"control_event_rate": {"E1": [0.05, 0.15], "E2": [0.10, 0.30], "E3": [0.02, 0.10]}},
+      "sample_size": {"n_per_arm": [80, 600], "size_distribution": "lognormal", "size_sigma": 0.7},
+      "missingness": {
+        "results_posting": {"base_rate": 0.60, "coef": {"industry": 0.3, "signif_benefit": 0.5, "signif_harm": -0.3, "se": -0.2, "post2015": 0.3}},
+        "publication": {"base_rate": 0.50, "coef": {"industry": 0.25, "signif_benefit": 0.7, "signif_harm": 0.2, "se": -0.35, "post2015": 0.1, "results_posted": 0.35}},
+        "endpoint_reporting": {"enabled": false, "base_rate_by_endpoint": {"E1": 0.90, "E2": 0.90, "E3": 0.90}, "coef": {"industry": 0.0, "signif_benefit": 0.0, "se": 0.0}},
+        "silent_shift_delta": {"enabled": true, "delta_by_endpoint": {"E1": {"industry": 0.08, "nonindustry": 0.02}, "E2": {"industry": 0.08, "nonindustry": 0.02}, "E3": {"industry": 0.07, "nonindustry": 0.015}}, "constraint": "industry_ge_nonindustry", "multiplier_by_endpoint": {"E1": 1.0, "E2": 1.0, "E3": 1.0}}
+      },
+      "engine": {
+        "delta_bayes": {"grid": {"di_max": 0.5, "dn_max": 0.3, "step": 0.02}, "prior": {"type": "half_normal", "sigma_industry": 0.2, "sigma_nonindustry": 0.15}, "temperature_T": 1.0, "grouping": "class"},
+        "propagation": {"n_posterior_samples": 2000, "include_mu_obs_uncertainty": true},
+        "decision_rule": {"benefit_threshold": 1.0, "recommend": {"p_benefit": 0.80, "upper": 1.0, "silent_rate_max": 0.50}, "consider": {"p_benefit": 0.60, "p_harm": 0.20, "silent_rate_max": 0.70}, "research": {"silent_rate_min": 0.40}},
+        "ablation_modes": ["denom_only", "delta_only"]
+      }
+    },
+    {
+      "topic_id": "T06",
+      "label": "Small Trials",
+      "node_grid": {"phenotypes": ["P1","P2"], "classes": ["C1","C2"], "endpoints": ["E1","E2","E3"]},
+      "trial_count": {"n_trials_total": 60, "min_trials_per_node": 2, "dispersion": 1.0},
+      "sponsor": {"industry_rate": 0.5},
+      "truth": {"mu_global": -0.12, "node_effect_structure": "smooth", "mu_node_sd": 0.12, "tau_base": 0.10, "tau_sd": 0.03, "discontinuity": {"enabled": false}},
+      "baseline_risk": {"control_event_rate": {"E1": [0.05, 0.15], "E2": [0.10, 0.30], "E3": [0.02, 0.10]}},
+      "sample_size": {"n_per_arm": [20, 100], "size_distribution": "uniform", "size_sigma": 0.5},
+      "missingness": {
+        "results_posting": {"base_rate": 0.60, "coef": {"industry": 0.2, "signif_benefit": 0.4, "signif_harm": -0.2, "se": -0.3, "post2015": 0.25}},
+        "publication": {"base_rate": 0.50, "coef": {"industry": 0.15, "signif_benefit": 0.6, "signif_harm": 0.2, "se": -0.4, "post2015": 0.1, "results_posted": 0.3}},
+        "endpoint_reporting": {"enabled": false, "base_rate_by_endpoint": {"E1": 0.90, "E2": 0.90, "E3": 0.90}, "coef": {"industry": 0.0, "signif_benefit": 0.0, "se": 0.0}},
+        "silent_shift_delta": {"enabled": true, "delta_by_endpoint": {"E1": {"industry": 0.05, "nonindustry": 0.025}, "E2": {"industry": 0.05, "nonindustry": 0.025}, "E3": {"industry": 0.04, "nonindustry": 0.02}}, "constraint": "industry_ge_nonindustry", "multiplier_by_endpoint": {"E1": 1.0, "E2": 1.0, "E3": 1.0}}
+      },
+      "engine": {
+        "delta_bayes": {"grid": {"di_max": 0.5, "dn_max": 0.3, "step": 0.02}, "prior": {"type": "half_normal", "sigma_industry": 0.2, "sigma_nonindustry": 0.15}, "temperature_T": 1.0, "grouping": "class"},
+        "propagation": {"n_posterior_samples": 2000, "include_mu_obs_uncertainty": true},
+        "decision_rule": {"benefit_threshold": 1.0, "recommend": {"p_benefit": 0.80, "upper": 1.0, "silent_rate_max": 0.50}, "consider": {"p_benefit": 0.60, "p_harm": 0.20, "silent_rate_max": 0.70}, "research": {"silent_rate_min": 0.40}},
+        "ablation_modes": ["denom_only", "delta_only"]
+      }
+    },
+    {
+      "topic_id": "T07",
+      "label": "High Heterogeneity",
+      "node_grid": {"phenotypes": ["P1","P2"], "classes": ["C1","C2"], "endpoints": ["E1","E2","E3"]},
+      "trial_count": {"n_trials_total": 60, "min_trials_per_node": 2, "dispersion": 1.0},
+      "sponsor": {"industry_rate": 0.6},
+      "truth": {"mu_global": -0.10, "node_effect_structure": "smooth", "mu_node_sd": 0.20, "tau_base": 0.25, "tau_sd": 0.08, "discontinuity": {"enabled": false}},
+      "baseline_risk": {"control_event_rate": {"E1": [0.05, 0.15], "E2": [0.10, 0.30], "E3": [0.02, 0.10]}},
+      "sample_size": {"n_per_arm": [50, 500], "size_distribution": "lognormal", "size_sigma": 0.8},
+      "missingness": {
+        "results_posting": {"base_rate": 0.60, "coef": {"industry": 0.2, "signif_benefit": 0.4, "signif_harm": -0.2, "se": -0.2, "post2015": 0.25}},
+        "publication": {"base_rate": 0.50, "coef": {"industry": 0.15, "signif_benefit": 0.6, "signif_harm": 0.2, "se": -0.3, "post2015": 0.1, "results_posted": 0.3}},
+        "endpoint_reporting": {"enabled": false, "base_rate_by_endpoint": {"E1": 0.90, "E2": 0.90, "E3": 0.90}, "coef": {"industry": 0.0, "signif_benefit": 0.0, "se": 0.0}},
+        "silent_shift_delta": {"enabled": true, "delta_by_endpoint": {"E1": {"industry": 0.04, "nonindustry": 0.02}, "E2": {"industry": 0.04, "nonindustry": 0.02}, "E3": {"industry": 0.03, "nonindustry": 0.015}}, "constraint": "industry_ge_nonindustry", "multiplier_by_endpoint": {"E1": 1.0, "E2": 1.0, "E3": 1.0}}
+      },
+      "engine": {
+        "delta_bayes": {"grid": {"di_max": 0.5, "dn_max": 0.3, "step": 0.02}, "prior": {"type": "half_normal", "sigma_industry": 0.2, "sigma_nonindustry": 0.15}, "temperature_T": 1.0, "grouping": "class"},
+        "propagation": {"n_posterior_samples": 2000, "include_mu_obs_uncertainty": true},
+        "decision_rule": {"benefit_threshold": 1.0, "recommend": {"p_benefit": 0.80, "upper": 1.0, "silent_rate_max": 0.50}, "consider": {"p_benefit": 0.60, "p_harm": 0.20, "silent_rate_max": 0.70}, "research": {"silent_rate_min": 0.40}},
+        "ablation_modes": ["denom_only", "delta_only"]
+      }
+    },
+    {
+      "topic_id": "T08",
+      "label": "Reversal Stress",
+      "node_grid": {"phenotypes": ["P1","P2"], "classes": ["C1","C2"], "endpoints": ["E1","E2","E3"]},
+      "trial_count": {"n_trials_total": 80, "min_trials_per_node": 2, "dispersion": 1.5},
+      "sponsor": {"industry_rate": 0.75},
+      "truth": {"mu_global": -0.05, "node_effect_structure": "smooth", "mu_node_sd": 0.12, "tau_base": 0.12, "tau_sd": 0.04, "discontinuity": {"enabled": false}},
+      "baseline_risk": {"control_event_rate": {"E1": [0.05, 0.15], "E2": [0.10, 0.30], "E3": [0.02, 0.10]}},
+      "sample_size": {"n_per_arm": [50, 500], "size_distribution": "lognormal", "size_sigma": 0.8},
+      "missingness": {
+        "results_posting": {"base_rate": 0.35, "coef": {"industry": 0.3, "signif_benefit": 1.0, "signif_harm": -0.5, "se": -0.4, "post2015": 0.3}},
+        "publication": {"base_rate": 0.25, "coef": {"industry": 0.25, "signif_benefit": 1.5, "signif_harm": 0.3, "se": -0.6, "post2015": 0.1, "results_posted": 0.5}},
+        "endpoint_reporting": {"enabled": true, "base_rate_by_endpoint": {"E1": 0.50, "E2": 0.45, "E3": 0.40}, "coef": {"industry": 0.2, "signif_benefit": 0.6, "se": -0.3}},
+        "silent_shift_delta": {"enabled": true, "delta_by_endpoint": {"E1": {"industry": 0.15, "nonindustry": 0.08}, "E2": {"industry": 0.15, "nonindustry": 0.08}, "E3": {"industry": 0.12, "nonindustry": 0.06}}, "constraint": "industry_ge_nonindustry", "multiplier_by_endpoint": {"E1": 1.0, "E2": 1.0, "E3": 1.2}}
+      },
+      "engine": {
+        "delta_bayes": {"grid": {"di_max": 0.5, "dn_max": 0.3, "step": 0.02}, "prior": {"type": "half_normal", "sigma_industry": 0.25, "sigma_nonindustry": 0.2}, "temperature_T": 1.0, "grouping": "class"},
+        "propagation": {"n_posterior_samples": 2000, "include_mu_obs_uncertainty": true},
+        "decision_rule": {"benefit_threshold": 1.0, "recommend": {"p_benefit": 0.80, "upper": 1.0, "silent_rate_max": 0.50}, "consider": {"p_benefit": 0.60, "p_harm": 0.20, "silent_rate_max": 0.70}, "research": {"silent_rate_min": 0.40}},
+        "ablation_modes": ["denom_only", "delta_only"]
+      }
+    },
+    {
+      "topic_id": "T09",
+      "label": "Discontinuous Truth",
+      "node_grid": {"phenotypes": ["P1","P2"], "classes": ["C1","C2"], "endpoints": ["E1","E2","E3"]},
+      "trial_count": {"n_trials_total": 60, "min_trials_per_node": 2, "dispersion": 1.0},
+      "sponsor": {"industry_rate": 0.6},
+      "truth": {"mu_global": -0.10, "node_effect_structure": "discontinuous", "mu_node_sd": 0.12, "tau_base": 0.10, "tau_sd": 0.03, "discontinuity": {"enabled": true, "type": "phenotype_flip", "magnitude": 0.40}},
+      "baseline_risk": {"control_event_rate": {"E1": [0.05, 0.15], "E2": [0.10, 0.30], "E3": [0.02, 0.10]}},
+      "sample_size": {"n_per_arm": [50, 500], "size_distribution": "lognormal", "size_sigma": 0.8},
+      "missingness": {
+        "results_posting": {"base_rate": 0.60, "coef": {"industry": 0.2, "signif_benefit": 0.4, "signif_harm": -0.2, "se": -0.15, "post2015": 0.25}},
+        "publication": {"base_rate": 0.50, "coef": {"industry": 0.15, "signif_benefit": 0.6, "signif_harm": 0.2, "se": -0.3, "post2015": 0.1, "results_posted": 0.3}},
+        "endpoint_reporting": {"enabled": false, "base_rate_by_endpoint": {"E1": 0.90, "E2": 0.90, "E3": 0.90}, "coef": {"industry": 0.0, "signif_benefit": 0.0, "se": 0.0}},
+        "silent_shift_delta": {"enabled": true, "delta_by_endpoint": {"E1": {"industry": 0.05, "nonindustry": 0.025}, "E2": {"industry": 0.05, "nonindustry": 0.025}, "E3": {"industry": 0.04, "nonindustry": 0.02}}, "constraint": "industry_ge_nonindustry", "multiplier_by_endpoint": {"E1": 1.0, "E2": 1.0, "E3": 1.0}}
+      },
+      "engine": {
+        "delta_bayes": {"grid": {"di_max": 0.5, "dn_max": 0.3, "step": 0.02}, "prior": {"type": "half_normal", "sigma_industry": 0.2, "sigma_nonindustry": 0.15}, "temperature_T": 1.0, "grouping": "class"},
+        "propagation": {"n_posterior_samples": 2000, "include_mu_obs_uncertainty": true},
+        "decision_rule": {"benefit_threshold": 1.0, "recommend": {"p_benefit": 0.80, "upper": 1.0, "silent_rate_max": 0.50}, "consider": {"p_benefit": 0.60, "p_harm": 0.20, "silent_rate_max": 0.70}, "research": {"silent_rate_min": 0.40}},
+        "ablation_modes": ["denom_only", "delta_only"]
+      }
+    },
+    {
+      "topic_id": "T10",
+      "label": "Low Trial Count",
+      "node_grid": {"phenotypes": ["P1","P2"], "classes": ["C1","C2"], "endpoints": ["E1","E2","E3"]},
+      "trial_count": {"n_trials_total": 24, "min_trials_per_node": 1, "dispersion": 0.5},
+      "sponsor": {"industry_rate": 0.6},
+      "truth": {"mu_global": -0.10, "node_effect_structure": "smooth", "mu_node_sd": 0.12, "tau_base": 0.10, "tau_sd": 0.03, "discontinuity": {"enabled": false}},
+      "baseline_risk": {"control_event_rate": {"E1": [0.05, 0.15], "E2": [0.10, 0.30], "E3": [0.02, 0.10]}},
+      "sample_size": {"n_per_arm": [50, 500], "size_distribution": "lognormal", "size_sigma": 0.8},
+      "missingness": {
+        "results_posting": {"base_rate": 0.60, "coef": {"industry": 0.2, "signif_benefit": 0.4, "signif_harm": -0.2, "se": -0.15, "post2015": 0.25}},
+        "publication": {"base_rate": 0.50, "coef": {"industry": 0.15, "signif_benefit": 0.6, "signif_harm": 0.2, "se": -0.3, "post2015": 0.1, "results_posted": 0.3}},
+        "endpoint_reporting": {"enabled": false, "base_rate_by_endpoint": {"E1": 0.90, "E2": 0.90, "E3": 0.90}, "coef": {"industry": 0.0, "signif_benefit": 0.0, "se": 0.0}},
+        "silent_shift_delta": {"enabled": true, "delta_by_endpoint": {"E1": {"industry": 0.04, "nonindustry": 0.02}, "E2": {"industry": 0.04, "nonindustry": 0.02}, "E3": {"industry": 0.03, "nonindustry": 0.015}}, "constraint": "industry_ge_nonindustry", "multiplier_by_endpoint": {"E1": 1.0, "E2": 1.0, "E3": 1.0}}
+      },
+      "engine": {
+        "delta_bayes": {"grid": {"di_max": 0.5, "dn_max": 0.3, "step": 0.02}, "prior": {"type": "half_normal", "sigma_industry": 0.2, "sigma_nonindustry": 0.15}, "temperature_T": 1.0, "grouping": "class"},
+        "propagation": {"n_posterior_samples": 2000, "include_mu_obs_uncertainty": true},
+        "decision_rule": {"benefit_threshold": 1.0, "recommend": {"p_benefit": 0.80, "upper": 1.0, "silent_rate_max": 0.50}, "consider": {"p_benefit": 0.60, "p_harm": 0.20, "silent_rate_max": 0.70}, "research": {"silent_rate_min": 0.40}},
+        "ablation_modes": ["denom_only", "delta_only"]
+      }
+    },
+    {
+      "topic_id": "T11",
+      "label": "Strong Benefit Signal",
+      "node_grid": {"phenotypes": ["P1","P2"], "classes": ["C1","C2"], "endpoints": ["E1","E2","E3"]},
+      "trial_count": {"n_trials_total": 60, "min_trials_per_node": 2, "dispersion": 1.0},
+      "sponsor": {"industry_rate": 0.6},
+      "truth": {"mu_global": -0.30, "node_effect_structure": "smooth", "mu_node_sd": 0.12, "tau_base": 0.10, "tau_sd": 0.03, "discontinuity": {"enabled": false}},
+      "baseline_risk": {"control_event_rate": {"E1": [0.08, 0.20], "E2": [0.15, 0.35], "E3": [0.05, 0.15]}},
+      "sample_size": {"n_per_arm": [50, 500], "size_distribution": "lognormal", "size_sigma": 0.8},
+      "missingness": {
+        "results_posting": {"base_rate": 0.65, "coef": {"industry": 0.2, "signif_benefit": 0.3, "signif_harm": -0.2, "se": -0.15, "post2015": 0.25}},
+        "publication": {"base_rate": 0.55, "coef": {"industry": 0.15, "signif_benefit": 0.5, "signif_harm": 0.2, "se": -0.25, "post2015": 0.1, "results_posted": 0.3}},
+        "endpoint_reporting": {"enabled": false, "base_rate_by_endpoint": {"E1": 0.90, "E2": 0.90, "E3": 0.90}, "coef": {"industry": 0.0, "signif_benefit": 0.0, "se": 0.0}},
+        "silent_shift_delta": {"enabled": true, "delta_by_endpoint": {"E1": {"industry": 0.04, "nonindustry": 0.02}, "E2": {"industry": 0.04, "nonindustry": 0.02}, "E3": {"industry": 0.03, "nonindustry": 0.015}}, "constraint": "industry_ge_nonindustry", "multiplier_by_endpoint": {"E1": 1.0, "E2": 1.0, "E3": 1.0}}
+      },
+      "engine": {
+        "delta_bayes": {"grid": {"di_max": 0.5, "dn_max": 0.3, "step": 0.02}, "prior": {"type": "half_normal", "sigma_industry": 0.2, "sigma_nonindustry": 0.15}, "temperature_T": 1.0, "grouping": "class"},
+        "propagation": {"n_posterior_samples": 2000, "include_mu_obs_uncertainty": true},
+        "decision_rule": {"benefit_threshold": 1.0, "recommend": {"p_benefit": 0.80, "upper": 1.0, "silent_rate_max": 0.50}, "consider": {"p_benefit": 0.60, "p_harm": 0.20, "silent_rate_max": 0.70}, "research": {"silent_rate_min": 0.40}},
+        "ablation_modes": ["denom_only", "delta_only"]
+      }
+    },
+    {
+      "topic_id": "T12",
+      "label": "Near-Null Effect",
+      "node_grid": {"phenotypes": ["P1","P2"], "classes": ["C1","C2"], "endpoints": ["E1","E2","E3"]},
+      "trial_count": {"n_trials_total": 60, "min_trials_per_node": 2, "dispersion": 1.0},
+      "sponsor": {"industry_rate": 0.6},
+      "truth": {"mu_global": -0.01, "node_effect_structure": "smooth", "mu_node_sd": 0.08, "tau_base": 0.08, "tau_sd": 0.02, "discontinuity": {"enabled": false}},
+      "baseline_risk": {"control_event_rate": {"E1": [0.05, 0.15], "E2": [0.10, 0.30], "E3": [0.02, 0.10]}},
+      "sample_size": {"n_per_arm": [50, 500], "size_distribution": "lognormal", "size_sigma": 0.8},
+      "missingness": {
+        "results_posting": {"base_rate": 0.60, "coef": {"industry": 0.2, "signif_benefit": 0.5, "signif_harm": -0.2, "se": -0.15, "post2015": 0.25}},
+        "publication": {"base_rate": 0.50, "coef": {"industry": 0.15, "signif_benefit": 0.7, "signif_harm": 0.2, "se": -0.3, "post2015": 0.1, "results_posted": 0.3}},
+        "endpoint_reporting": {"enabled": false, "base_rate_by_endpoint": {"E1": 0.90, "E2": 0.90, "E3": 0.90}, "coef": {"industry": 0.0, "signif_benefit": 0.0, "se": 0.0}},
+        "silent_shift_delta": {"enabled": true, "delta_by_endpoint": {"E1": {"industry": 0.05, "nonindustry": 0.025}, "E2": {"industry": 0.05, "nonindustry": 0.025}, "E3": {"industry": 0.04, "nonindustry": 0.02}}, "constraint": "industry_ge_nonindustry", "multiplier_by_endpoint": {"E1": 1.0, "E2": 1.0, "E3": 1.0}}
+      },
+      "engine": {
+        "delta_bayes": {"grid": {"di_max": 0.5, "dn_max": 0.3, "step": 0.02}, "prior": {"type": "half_normal", "sigma_industry": 0.2, "sigma_nonindustry": 0.15}, "temperature_T": 1.0, "grouping": "class"},
+        "propagation": {"n_posterior_samples": 2000, "include_mu_obs_uncertainty": true},
+        "decision_rule": {"benefit_threshold": 1.0, "recommend": {"p_benefit": 0.80, "upper": 1.0, "silent_rate_max": 0.50}, "consider": {"p_benefit": 0.60, "p_harm": 0.20, "silent_rate_max": 0.70}, "research": {"silent_rate_min": 0.40}},
+        "ablation_modes": ["denom_only", "delta_only"]
+      }
+    }
+  ]
+}

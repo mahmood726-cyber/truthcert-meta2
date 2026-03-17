@@ -1,0 +1,8 @@
+{
+  "run_id": "11bbba3dcee3",
+  "config_path": "configs/suite_12topics_meta2.json",
+  "framework": "meta2",
+  "seed_master": 42,
+  "n_replications": 50,
+  "n_topics": 12
+}

@@ -1,0 +1,5 @@
+study_id,dose,events,total,effect,se
+Study_A,0,12,120,0.000,0.100
+Study_B,10,18,130,0.120,0.110
+Study_C,20,25,140,0.210,0.115
+Study_D,30,27,150,0.260,0.120
