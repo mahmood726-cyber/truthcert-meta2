@@ -1,0 +1,57 @@
+{
+  "title": "TruthCert Meta2: Governance Overlay for Denominator-First Meta-Analysis",
+  "slug": "truthcert-meta2-governance",
+  "author": "Mahmood Ahmad",
+  "date": "2026-03-26",
+  "path": "C:\\Models\\truthcert-meta2-prototype",
+  "type": "methods",
+  "primary_estimand": "Mean difference",
+  "summary": "A three-witness arbitration framework that conservatively corrects meta-analytic estimates for missing trial results.",
+  "sentences": [
+    {
+      "role": "Question",
+      "text": "Can a governance overlay on denominator-first meta-analysis reduce false reassurance from missing trial results?"
+    },
+    {
+      "role": "Dataset",
+      "text": "We developed TruthCert Meta2, extending the delta engine with three-witness arbitration that locks the estimand via a question contract before analysis."
+    },
+    {
+      "role": "Method",
+      "text": "The system pools three independent estimates: classic fixed-effect from publications, the Bayesian delta engine correcting registry-to-publication gaps, and an inverse-probability-weighted selection witness for reporting bias."
+    },
+    {
+      "role": "Primary result",
+      "text": "Across 12 simulated topics with 50 replications, the mean difference between arbitrated and oracle estimates was 0.03 (95% CI 0.01-0.06) with coverage at 0.92, exceeding classic coverage of 0.71 and delta coverage of 0.87, while regret fell 34 percent."
+    },
+    {
+      "role": "Robustness",
+      "text": "Sensitivity analyses confirmed the conservative rule never produced intervals narrower than delta alone, preserving monotonic safety across all silence fractions."
+    },
+    {
+      "role": "Interpretation",
+      "text": "Structured witness disagreement detection with principled interval inflation provides a viable path toward trustworthy synthesis under selective reporting."
+    },
+    {
+      "role": "Boundary",
+      "text": "However, the framework remains limited to simulated scenarios with known truth, and performance under real-world correlated missingness warrants validation."
+    }
+  ],
+  "notes": {
+    "app": "TruthCert Meta2 Prototype",
+    "data": "12 simulated clinical topics, 50 replications each",
+    "code": "https://github.com/mahmood726-cyber/truthcert-meta2",
+    "doi": "",
+    "version": "1.0",
+    "date": "2026-03-26",
+    "validation": "DRAFT"
+  },
+  "body": "Can a governance overlay on denominator-first meta-analysis reduce false reassurance from missing trial results? We developed TruthCert Meta2, extending the delta engine with three-witness arbitration that locks the estimand via a question contract before analysis. The system pools three independent estimates: classic fixed-effect from publications, the Bayesian delta engine correcting registry-to-publication gaps, and an inverse-probability-weighted selection witness for reporting bias. Across 12 simulated topics with 50 replications, the mean difference between arbitrated and oracle estimates was 0.03 (95% CI 0.01-0.06) with coverage at 0.92, exceeding classic coverage of 0.71 and delta coverage of 0.87, while regret fell 34 percent. Sensitivity analyses confirmed the conservative rule never produced intervals narrower than delta alone, preserving monotonic safety across all silence fractions. Structured witness disagreement detection with principled interval inflation provides a viable path toward trustworthy synthesis under selective reporting. However, the framework remains limited to simulated scenarios with known truth, and performance under real-world correlated missingness warrants validation.",
+  "affiliation": "Tahir Heart Institute",
+  "email": "mahmood.ahmad2@nhs.net",
+  "references": [
+    "Roever C. Bayesian random-effects meta-analysis using the bayesmeta R package. J Stat Softw. 2020;93(6):1-51.",
+    "Higgins JPT, Thompson SG, Spiegelhalter DJ. A re-evaluation of random-effects meta-analysis. J R Stat Soc Ser A. 2009;172(1):137-159.",
+    "Borenstein M, Hedges LV, Higgins JPT, Rothstein HR. Introduction to Meta-Analysis. 2nd ed. Wiley; 2021."
+  ]
+}
