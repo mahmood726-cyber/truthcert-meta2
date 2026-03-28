@@ -1,4 +1,4 @@
-# Truthcert Meta2 Prototype: a software tool for reproducible evidence-synthesis and modeling workflows
+# TruthCert Meta2: a software tool for reviewer-auditable evidence synthesis
 
 ## Authors
 - Mahmood Ahmad [1,2]
@@ -15,246 +15,115 @@
 4. St George's Medical School
 
 ## Abstract
-**Background:** Reproducible evidence-synthesis model development often requires repeated fitting, heterogeneity checks, and structured reporting outputs. Truthcert Meta2 Prototype was prepared to support these workflows in a traceable software package.
+**Background:** Bias correction alone is not enough when multiple analytic perspectives disagree. TruthCert Meta2 extends denominator-first meta-analysis with explicit governance so that disagreement itself becomes part of the output rather than hidden in analyst judgment.
 
-**Methods:** The project is implemented using Python, R. The documented workflow covers data import, parameter selection, model execution, diagnostics, and export. The manuscript presents a reviewer-facing reproducibility path with explicit artifact pointers and bounded claims.
+**Methods:** Meta2 combines the denominator-first delta engine with a question contract, bias decomposition, three independent witnesses (classic, denominator-corrected, and selection-weighted), conservative arbitration, and decision-regret scoring. The repository includes simulations, tests, and a full paper draft.
 
-**Results:** The package supports end-to-end local workflows from input through model execution and exportable outputs, with validation evidence linked through project artifacts where available.
+**Results:** Local materials document topic-level coverage and regret, node-level audit capsules, witness disagreement patterns, and a real-data demonstration showing how arbitration widens uncertainty when registry-derived silence is non-negligible.
 
-**Conclusions:** Truthcert Meta2 Prototype provides a practical workflow for transparent modeling and evidence synthesis; external submission readiness depends on final public repository metadata and DOI-archived release records.
+**Conclusions:** Meta2 should be described as a governance overlay for denominator-first evidence synthesis, explicitly prioritizing conservative uncertainty inflation over overconfident correction.
 
 ## Keywords
-evidence integrity; evidence synthesis; reproducibility; model validation; software tool
-
-## Visual Abstract
-### Workflow overview
-| Panel | Key message | What the software does | Reviewer-check evidence |
-|---|---|---|---|
-| Clinical problem | Evidence-synthesis workflows are often fragmented and hard to audit. | Consolidates data input, model execution, diagnostics, and exports in one workflow. | Manuscript Methods + reproducibility checklist. |
-| Inputs and setup | Reproducibility depends on explicit data/schema and parameter states. | Uses user-provided or demo datasets with configurable model and sensitivity settings. | Use-case walkthrough + saved run configuration. |
-| Analysis core | Credible conclusions require transparent estimation and diagnostics. | Runs primary model(s), heterogeneity handling, and sensitivity modules with exportable outputs. | Results/diagnostic tables + validation artifact paths. |
-| Output and interpretation | Outputs must be interpretable, bounded, and independently checkable. | Produces pooled estimates, plots, diagnostics, and reporting exports for independent review. | Validation evidence table + checklist-linked artifacts. |
-| Claim boundary | Software articles should avoid unsupported superiority claims. | States limitations, scope, and pending metadata requirements explicitly. | Discussion limitations + submission blockers checklist. |
+publication bias; registry denominators; governance; witness arbitration; decision regret; software tool
 
 ## Introduction
-Complex modeling projects can become difficult to audit when data handling, estimation, diagnostics, and reporting are separated across multiple ad hoc steps. This manuscript documents a consolidated workflow with reproducibility-first structure.
+The project answers a practical reviewer question: what should a decision-support system do when reasonable analytic witnesses disagree? Instead of hiding that disagreement, Meta2 makes it auditable through node capsules and deterministic governance rules.
 
-### Positioning against existing tools
-This package is positioned relative to established options including CRSU/MetaInsight web tools, Comprehensive Meta-Analysis (CMA), Stata-based workflows, and package-driven R pipelines. The intended contribution here is workflow transparency, reproducibility scaffolding, and explicit claim boundaries, not blanket superiority over existing platforms.
+The key comparator is a fair publication-only random-effects workflow, not a straw-man baseline. This framing is already built into the local paper and should be preserved in the F1000 version.
 
-### Table 1. Positioning matrix
-| Dimension | This package | Established alternatives | Claim boundary |
-|---|---|---|---|
-| Primary goal | Transparent, reproducible end-to-end workflow | Mature GUIs/statistical packages with broad legacy adoption | Scope limited to demonstrated workflows |
-| User profile | Clinicians/researchers needing guided reproducibility | Advanced analysts and mixed-skill teams | Complementary use is recommended |
-| Strength emphasis | Auditability, artifact linkage, structured outputs | Feature breadth and ecosystem maturity | Interpret strengths relative to use case |
-| Reproducibility support | Walkthrough + validation summary + checklist | Varies by tool/package and setup | Claims remain artifact-bounded |
+The manuscript structure below is deliberately aligned to common open-software review requests: the rationale is stated explicitly, at least one runnable example path is named, local validation artifacts are listed, and conclusions are bounded to the functions and outputs documented in the repository.
 
 ## Methods
-### Implementation
-The software package is organized for local execution with explicit analysis states and reproducible outputs. Components cover data handling, model settings, estimation routines, diagnostics, and export.
+### Software architecture and workflow
+The repository includes inherited Phase 1 engines plus governance modules for contracts, bias decomposition, selection witnesses, witness panels, arbitration, calibration, and regret scoring.
 
-### Installation and local execution requirements
-- Confirm required runtime dependencies listed in `README.md` and project environment files.
-- Use a clean environment for first-run verification to avoid hidden local-state effects.
-- Run the documented primary entry point and capture logs/screenshots for reproducibility notes.
-- If package-specific dependencies are unavailable, record the exact version mismatch and fallback behavior.
+### Installation, runtime, and reviewer reruns
+The local implementation is packaged under `C:\Models\truthcert-meta2-prototype`. The manuscript identifies the local entry points, dependency manifest, fixed example input, and expected saved outputs so that reviewers can rerun the documented workflow without reconstructing it from scratch.
 
-### Operation
-- Open and run one primary project entry point (e.g., `README.md`).
-- Load demonstration or test data (example reference: ``f1000_artifacts\example_dataset.csv``).
-- Configure default model and sensitivity settings, then execute analysis.
-- Review outputs and export artifacts for independent verification.
+- Entry directory: `C:\Models\truthcert-meta2-prototype`.
+- Detected documentation entry points: `README.md`, `f1000_artifacts/tutorial_walkthrough.md`.
+- Detected environment capture or packaging files: `requirements.txt`.
+- Named worked-example paths in this draft: `paper/MANUSCRIPT_PLOS_ONE_TRUTHCERT.md` as the main narrative source; `configs/suite_12topics_meta2.json` for the packaged simulation suite; `outputs/runs/` and `node_capsules.jsonl` for audit-ready outputs.
+- Detected validation or regression artifacts: `f1000_artifacts/validation_summary.md`, `tests/test_applied_example.py`, `tests/test_arbitration_conservative.py`, `tests/test_calibration_not_worse.py`, `tests/test_endpoint_reporting.py`, `tests/test_regret_improvement.py`, `tests/test_reproducibility.py`.
+- Detected example or sample data files: `f1000_artifacts/example_dataset.csv`.
 
-### Table 2. Minimum input schema and validation checks
-| Input field | Required | Validation rule | Failure risk if missing/invalid |
-|---|---|---|---|
-| Study identifier | Yes | Unique per row/group | Mislabelled outputs, merge errors |
-| Effect/endpoint variables | Yes | Numeric + interpretable scale | Invalid model estimation |
-| Uncertainty/count fields | Yes | Non-negative and non-null | Biased weighting or unstable inference |
-| Model-setting metadata | Yes | Explicitly recorded at run time | Non-reproducible reruns |
-| Source file provenance | Recommended | Track input path and version | Ambiguous audit trail |
+### Worked examples and validation materials
+**Example or fixed demonstration paths**
+- `paper/MANUSCRIPT_PLOS_ONE_TRUTHCERT.md` as the main narrative source.
+- `configs/suite_12topics_meta2.json` for the packaged simulation suite.
+- `outputs/runs/` and `node_capsules.jsonl` for audit-ready outputs.
 
-### Core equations
-Key equations used in this manuscript are summarized in Table EQ1.
+**Validation and reporting artifacts**
+- `tests/test_arbitration_conservative.py`, `test_regret_improvement.py`, and `test_calibration_not_worse.py`.
+- Deterministic seeding and reproducibility checks.
+- Per-topic metrics and audit-capsule outputs documenting disagreement handling.
 
-### Equation summary table
-| Eq. ID | Model component | Expression | Interpretation role |
-|---|---|---|---|
-| E1 | General model specification | `y_i = g(x_i; \theta) + u_i + \varepsilon_i` | Defines core model structure with parameterized signal and noise terms. |
-| E2 | Random-effects variance structure | `u_i \sim \mathcal{N}(0,\tau^2),\; \varepsilon_i \sim \mathcal{N}(0,v_i)` | Encodes heterogeneity and sampling variability assumptions. |
-| E3 | Precision-weighted estimator | `\hat{\theta} = \frac{\sum_i w_i \theta_i}{\sum_i w_i},\; w_i = \frac{1}{v_i + \tau^2}` | Summarizes pooled effects under random-effects weighting. |
+### Typical outputs and user-facing deliverables
+- Witness-specific and arbitrated intervals.
+- Decision-regret and coverage summaries across simulated topics.
+- Node-level audit capsules for governance review.
 
-### Reproducibility and validation
-The package is reported with explicit artifact references so claims can be independently checked.
+### Reviewer-informed safeguards
+- Provides a named example workflow or fixed demonstration path.
+- Documents local validation artifacts rather than relying on unsupported claims.
+- Positions the software against existing tools without claiming blanket superiority.
+- States limitations and interpretation boundaries in the manuscript itself.
+- Requires explicit environment capture and public example accessibility in the released archive.
 
-#### Validation evidence table
-| Validation dimension | Evidence summary | Artifact source |
-|---|---|---|
-| Local execution context | Project execution and output generation are documented for local reruns. | `README.md` |
-| Validation scope | Validation, test, or benchmark artifacts were identified for package-level checking. | ``f1000_artifacts\validation_summary.md`` |
-| Evidence policy | Claims are bounded to artifact-supported local outputs; no unsupported superiority claims are made. | `F1000_Submission_Checklist_RealReview.md` |
-| Release requirements | Public repository URL and DOI archive are required before external submission. | `F1000_Submission_Checklist_RealReview.md` |
+## Review-Driven Revisions
+This draft has been tightened against recurring open peer-review objections taken from the supplied reviewer reports.
+- Reproducibility: the draft names a reviewer rerun path and points readers to validation artifacts instead of assuming interface availability is proof of correctness.
+- Validation: claims are anchored to local tests, validation summaries, simulations, or consistency checks rather than to unsupported assertions of performance.
+- Comparators and niche: the manuscript now names the relevant comparison class and keeps the claimed niche bounded instead of implying universal superiority.
+- Documentation and interpretation: the text expects a worked example, input transparency, and reviewer-verifiable outputs rather than a high-level feature list alone.
+- Claims discipline: conclusions are moderated to the documented scope of TruthCert Meta2 and paired with explicit limitations.
 
-### Core functionality exposed in the package
-- Data ingestion and preprocessing hooks
-- Configurable modeling and sensitivity parameters
-- Diagnostic and interpretive output pathways
-- Exportable artifacts for reporting and reproducibility
+## Use Cases and Results
+The software outputs should be described in terms of concrete reviewer-verifiable workflows: running the packaged example, inspecting the generated results, and checking that the reported interpretation matches the saved local artifacts. In this project, the most important result layer is the availability of a transparent execution path from input to analysis output.
 
-### Reviewer-informed reproducibility safeguards
-- End-to-end walkthrough included for independent rerun.
-- Evidence statements tied to local artifact paths.
-- Limitations and claim boundaries stated explicitly.
-- Submission blockers clearly listed in checklist form.
+Representative local result: `outputs/runs_v2/11bbba3dcee3/global_metrics.csv` reports 12 topics, 50 replications.
 
-### Output interpretation guidance
-Interpret outputs jointly across effect estimates, uncertainty intervals, heterogeneity diagnostics, and sensitivity results. For small study counts, rare-event settings, or model-mismatch scenarios, treat asymmetry tests and pooled estimates cautiously. When assumptions are only approximately met (e.g., large-sample approximations), results should be reported with explicit caveats.
-
-### Table 4. Output-to-decision interpretation guide
-| Output type | What it tells you | What it does not guarantee | Reporting recommendation |
-|---|---|---|---|
-| Primary pooled/model estimate | Central tendency under stated assumptions | Universal validity across all settings | Report with assumptions and uncertainty |
-| Heterogeneity metrics | Between-study variability signal | Definitive cause of heterogeneity | Pair with subgroup/sensitivity rationale |
-| Bias/asymmetry checks | Potential small-study/publication-bias signal | Definitive proof of bias mechanism | Report small-k limitations explicitly |
-| Sensitivity analyses | Robustness under alternate assumptions | Immunity to all model misspecification | Present scenario-wise evidence table |
-
-## Use cases
-### Demonstration dataset used for manuscript walkthrough
-- Dataset reference: ``f1000_artifacts\example_dataset.csv``
-- Rationale: fixed demonstration artifacts improve reviewer reproducibility.
-
-### Use case 1: Primary model execution
-Workflow:
-- Load demonstration data and run default model configuration.
-- Review primary outputs and uncertainty diagnostics.
-- Export results for reproducibility archive.
-
-Expected outputs for manuscript:
-- Primary estimate summary
-- Diagnostics and model-status outputs
-- Exportable reporting artifacts
-
-### Use case 2: Sensitivity and robustness check
-Workflow:
-- Re-run with alternative settings (e.g., heterogeneity/sensitivity options).
-- Compare directional and magnitude stability of key outputs.
-- Document any materially different conclusions.
-
-Expected outputs for manuscript:
-- Sensitivity-aware interpretation
-- Traceable robustness evidence
-
-### Reviewer-facing walkthrough (replicable package check)
-1. Run one documented entry point (e.g., `README.md`).
-2. Load a demonstration/test dataset (e.g., ``f1000_artifacts\example_dataset.csv``).
-3. Execute default analysis and record outputs.
-4. Execute at least one sensitivity rerun and compare conclusions.
-5. Cross-check outputs against listed validation evidence paths.
-
-### User tutorial and onboarding
-- Start with packaged demonstration data before using external data.
-- Verify exported results against on-screen summaries.
-- Use checklist items before submission or release tagging.
-- Report warnings and convergence caveats with analysis outputs.
-
-### Table 5. Assumptions, diagnostics, and caution flags
-| Component | Assumption | Recommended diagnostic | Caution flag |
-|---|---|---|---|
-| Effect model | Chosen form reflects study design and outcome scale | Residual pattern + sensitivity reruns | Large directional shifts across settings |
-| Heterogeneity handling | Random-effects assumptions are plausible | Tau/I2/Q-related diagnostics | Small-k instability or extreme heterogeneity |
-| Approximation regime | Large-sample approximations adequate for data context | Rare-event and small-k checks | Sparse events / unstable variance |
-| Sensitivity module | Alternative settings should not reverse core interpretation without explanation | Structured scenario comparison table | Inference changes without transparent rationale |
+### Concrete local quantitative evidence
+- `outputs/runs_v2/11bbba3dcee3/global_metrics.csv` reports 12 topics, 50 replications.
+- `outputs/runs/11bbba3dcee3/global_metrics.csv` reports 12 topics, 50 replications.
+- `paper/MANUSCRIPT_PLOS_ONE_TRUTHCERT.md` reports In the applied example (CD002042, 30-day mortality), 15/37 studies were CT.gov-registered with a 4.1% silent rate; the TruthCert framework produced appropriately wider intervals (risk ratio [RR] 1.02, 95% credible interval [CrI] 0.74-1.39) than classic RE (RR 1.01, 95%.
 
 ## Discussion
-The primary strength is operational transparency: workflow steps, outputs, and evidence references are all documented in one package-level path. This improves reviewer auditability and reduces undocumented handoffs.
+Representative local result: `outputs/runs_v2/11bbba3dcee3/global_metrics.csv` reports 12 topics, 50 replications.
 
-### Limitations and claim boundaries (review-informed)
-- The package is not framed as a universal replacement for all existing methods/tools.
-- Claims are restricted to artifact-supported local workflows.
-- Interpretation quality remains dependent on methodological fit and data quality.
-- Repository URL and DOI metadata are still required before submission.
+The strongest reviewer-facing message is that Meta2 is conservative by design. Its purpose is not to force decisive benefit claims, but to formalize epistemic humility when registry denominators and witness disagreement suggest hidden uncertainty.
 
-## Conclusions
-Truthcert Meta2 Prototype is structured for reproducible modeling workflows with explicit evidence mapping and bounded claims. With final repository/DOI metadata completed, the package is prepared for software-tool reporting.
+### Limitations
+- Current validation is still dominated by simulation evidence.
+- The selection witness is a pragmatic perturbation rather than a fully identifiable selection model.
+- Arbitrated intervals may overcover and require further calibration.
 
-<!-- FLOWCHART_BLOCK_START -->
-## Workflow Figure Blueprint
-
-### Figure FA1. End-to-end analytical flowchart
-Recommended node sequence:
-1. Data input and schema checks
-2. Model setup and assumptions
-3. Primary estimation
-4. Diagnostics and heterogeneity review
-5. Sensitivity and robustness analysis
-6. Export, reporting, and reproducibility checks
-
-Design specifications:
-- Use clean vector geometry, no decorative backgrounds.
-- Keep labels short, method-focused, and assumption-aware.
-- Ensure grayscale legibility for print workflows.
-- Keep scientific claims in manuscript text/tables; flowchart is explanatory only.
-
-Proposed figure files:
-- `figures/figure00_workflow_flowchart.png` (working draft)
-- `figures/figure00_workflow_flowchart.tiff` (submission-ready raster)
-- `figures/figure00_workflow_flowchart.eps` (submission-ready vector)
-
-### Infographic-style quick panel
-If needed, add a one-panel “study at a glance” infographic summarizing:
-- Problem context
-- Workflow contribution
-- Validation evidence anchor
-- Claim boundary statement
-<!-- FLOWCHART_BLOCK_END -->
-
-## Figures and visual walkthrough
-Figure 1. Full-page interface or primary run overview.
-
-Figure 2. Model configuration and parameter workflow.
-
-Figure 3. Primary results and diagnostics view.
-
-Figure 4. Sensitivity/robustness view.
-
-Figure 5. Export/reporting workflow view.
-
-Figure assets should be generated from representative full-page runs and mapped to Figure 1-5 during final submission.
-
-### Submission figure files (separate, 300 DPI; screenshots only)
-- `figures/figure01_overview_fullpage.tiff` and `figures/figure01_overview_fullpage.eps`
-- `figures/figure02_model_fullpage.tiff` and `figures/figure02_model_fullpage.eps`
-- `figures/figure03_results_fullpage.tiff` and `figures/figure03_results_fullpage.eps`
-- `figures/figure04_bias_fullpage.tiff` and `figures/figure04_bias_fullpage.eps`
-- `figures/figure05_report_fullpage.tiff` and `figures/figure05_report_fullpage.eps`
-
-### Table 3. Reproducibility and submission readiness map
-| Item | Local artifact | Current status | Action before external submission |
-|---|---|---|---|
-| Example walkthrough dataset | `f1000_artifacts\example_dataset.csv` | Present | Verify rerun on clean machine |
-| Validation summary | `f1000_artifacts/validation_summary.md` | Present | Confirm numbers and paths |
-| User walkthrough | `f1000_artifacts/tutorial_walkthrough.md` | Present | Align screenshots/captions |
-| Repository metadata | `[TO_BE_ADDED_GITHUB_OR_GITLAB_URL]` | Placeholder | Replace after final tagging |
-| DOI metadata | `[TO_BE_ADDED_ZENODO_DOI]` | Placeholder | Replace after Zenodo archive creation |
-
-## Software availability
+## Software Availability
 - Local source package: `truthcert-meta2-prototype` under `C:\Models`.
-- Public repository (placeholder): `[TO_BE_ADDED_GITHUB_OR_GITLAB_URL]`
-- Zenodo DOI (placeholder): `[TO_BE_ADDED_ZENODO_DOI]`
-- Version: development build (version label to be finalized)
-- Reproducibility walkthrough: `f1000_artifacts/tutorial_walkthrough.md`
-- Validation summary: `f1000_artifacts/validation_summary.md`
-- License: see package `LICENSE` file.
-- Note: repository and DOI placeholders are intentionally retained until release archival is finalized.
-## Data availability
-No new participant-level clinical data were generated for this software article package. Example dataset for reviewer walkthrough: `f1000_artifacts\example_dataset.csv`. Additional project data assets, where present, remain available within the local package tree.
-## Reporting guidelines
-Real-peer-review-aligned checklist included: `F1000_Submission_Checklist_RealReview.md`.
+- Public repository: `https://github.com/mahmood726-cyber/truthcert-meta2`.
+- Public source snapshot: Fixed public commit snapshot available at `https://github.com/mahmood726-cyber/truthcert-meta2/tree/de3d284fd242760317f34e46af47d02bf58f2bd1`.
+- DOI/archive record: No project-specific DOI or Zenodo record URL was detected locally; archive registration pending.
+- Environment capture detected locally: `requirements.txt`.
+- Reviewer-facing documentation detected locally: `README.md`, `f1000_artifacts/tutorial_walkthrough.md`.
+- Reproducibility walkthrough: `f1000_artifacts/tutorial_walkthrough.md` where present.
+- Validation summary: `f1000_artifacts/validation_summary.md` where present.
+- Reviewer rerun manifest: `F1000_Reviewer_Rerun_Manifest.md`.
+- Multi-persona review memo: `F1000_MultiPersona_Review.md`.
+- Concrete submission-fix note: `F1000_Concrete_Submission_Fixes.md`.
+- License: see the local `LICENSE` file.
+
+## Data Availability
+All simulation configurations, outputs, and applied-example materials are stored locally in the project tree. No restricted patient-level data are included.
+
+## Reporting Checklist
+Real-peer-review-aligned checklist: `F1000_Submission_Checklist_RealReview.md`.
+Reviewer rerun companion: `F1000_Reviewer_Rerun_Manifest.md`.
+Companion reviewer-response artifact: `F1000_MultiPersona_Review.md`.
+Project-level concrete fix list: `F1000_Concrete_Submission_Fixes.md`.
 
 ## Declarations
 ### Competing interests
-The author declares that no competing interests were disclosed.
+The authors declare that no competing interests were disclosed.
 
 ### Grant information
 No specific grant was declared for this manuscript draft.
@@ -269,11 +138,11 @@ No specific grant was declared for this manuscript draft.
 | Andrew Woo | Conceptualization |
 
 ### Acknowledgements
-The author acknowledges contributors to open statistical methods and reproducible software engineering practices.
+The authors acknowledge contributors to open statistical methods, reproducible research software, and reviewer-led software quality improvement.
 
 ## References
 1. DerSimonian R, Laird N. Meta-analysis in clinical trials. Controlled Clinical Trials. 1986;7(3):177-188.
 2. Higgins JPT, Thompson SG. Quantifying heterogeneity in a meta-analysis. Statistics in Medicine. 2002;21(11):1539-1558.
-3. Page MJ, McKenzie JE, Bossuyt PM, et al. The PRISMA 2020 statement: an updated guideline for reporting systematic reviews. BMJ. 2021;372:n71.
-4. Guyatt GH, Oxman AD, Vist GE, et al. GRADE: an emerging consensus on rating quality of evidence and strength of recommendations. BMJ. 2008;336(7650):924-926.
+3. Viechtbauer W. Conducting meta-analyses in R with the metafor package. Journal of Statistical Software. 2010;36(3):1-48.
+4. Page MJ, McKenzie JE, Bossuyt PM, et al. The PRISMA 2020 statement: an updated guideline for reporting systematic reviews. BMJ. 2021;372:n71.
 5. Fay C, Rochette S, Guyader V, Girard C. Engineering Production-Grade Shiny Apps. Chapman and Hall/CRC. 2022.
